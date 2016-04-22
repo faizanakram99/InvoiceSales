@@ -1,0 +1,3 @@
+invoice:
+    resource: '@SalesBundle/Controller'
+    type: annotation

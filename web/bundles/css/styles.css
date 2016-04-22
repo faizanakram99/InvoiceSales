@@ -1,0 +1,64 @@
+h1{
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#invoice_date {
+    display: flex;
+    /*flex-wrap: nowrap;*/
+}
+
+#invoice_date > select{
+    flex-basis: 32%;
+}
+
+#invoice_date > select:nth-child(2){
+    margin: auto 2%;
+}
+
+
+#addDiv{
+    padding-left: 0;
+}
+
+
+.description{
+    padding-right: 0;
+}
+
+.btnClose{
+    display: inline-block;
+    background: #ccc;
+    color:#000;
+    font-weight:bolder;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    height: 34px;
+    vertical-align: top;
+    padding-top: 6px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btnClose:hover{
+    background: deepskyblue;
+    text-decoration: none;
+    color: #fff;
+}
+
+.edit-form{
+    padding-right: 15px;
+}
+
+.edit-form > div > div{
+    margin-bottom: 20px;
+}
+
+.edit-form > div > div:first-child{
+    padding-right: 0;
+}
+
+.margin-down{
+    margin-bottom: 20px;
+}

@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+{% block title %} | Show Invoices {% endblock %}
+{% block body %}
+    <h1>Invoice</h1>
+
+    <table class="table table-bordered table-striped table-hover">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ invoice.id }}</td>
+            </tr>
+            <tr>
+                <th>Invoice Number</th>
+                <td>{{ invoice.number }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ invoice.address }}</td>
+            </tr>
+
+            <tr>
+                <th>Email</th>
+                <td>{{ invoice.email }}</td>
+            </tr>
+
+            <tr>
+                <th>Date</th>
+                <td>{% if invoice.date %}{{ invoice.date|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+
+
+                <tr>
+                    <th>Products</th>
+
+                        <td>
+                            <ul class="list-unstyled row">
+                                {% set amount = 0 %}
+                                {% for product in invoice.products %}
+
+                                    <li>
+                                        <span class="col-xs-9">
+                                            {{ product.description }}
+                                        </span>
+                                        <span class="col-xs-3">
+                                            - {{ product.amount }}$
+                                        </span>
+                                    </li>
+                                    {% set amount = (amount + product.amount) %}
+                                {% endfor %}
+
+                                <li>
+                                    <div class="clearfix"></div>
+                                    <hr />
+                                    <span class="h4 col-xs-9">
+                                        Total
+                                    </span>
+
+                                    <span class="h4 col-xs-3">
+                                        - {{ amount }}$
+                                    </span>
+                                </li>
+
+                            </ul>
+                        </td>
+                </tr>
+
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-xs-6 col-md-4 margin-down">
+           <a href="{{ path('invoice_show_pdf', { 'id': invoice.id }) }}" class="btn btn-block btn-info">View as pdf</a>
+        </div>
+
+        <div class="col-xs-6 col-md-4 margin-down">
+           <a href="{{ path('invoice_download_pdf', { 'id': invoice.id }) }}" class="btn btn-block btn-info">Download Invoice</a>
+        </div>
+
+        <div class="col-xs-6 col-md-4 margin-down">
+           <a href="{{ path('invoice_email', { 'id': invoice.id }) }}" class="btn btn-block btn-info">Email Invoice</a>
+        </div>
+
+        <div class="col-xs-6 col-md-4 margin-down">
+          <a href="{{ path('invoice_index') }}" class="btn btn-block btn-info">Back to Invoice List</a>
+        </div>
+
+        <div class="col-xs-6 col-md-4 margin-down">
+           <a href="{{ path('invoice_edit', { 'id': invoice.id }) }}" class="btn btn-block btn-info">Edit Invoice</a>
+        </div>
+
+        <div class="col-xs-6 col-md-4 margin-down">
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete Invoice" class="btn btn-block btn-info">
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+
+{% endblock %}

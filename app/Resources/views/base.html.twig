@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="author" content="Faizan Akram!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sales Invoice {% block title %} | Home {% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/css/styles.css') }}" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div class="container">
+            {% block body %}
+
+
+            {% endblock %}
+        </div>
+        {% block javascripts %}
+            <script src="{{ asset('bundles/js/jquery-1.11.3.min.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>
