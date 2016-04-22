@@ -14,10 +14,10 @@ My first ever project in symfony.
 **Configuring Email**
 - Open `app/config/config.yml` and navigate to *Swiftmailer Configuration*
 
-    swiftmailer:
-        transport: gmail
-        username:  user_name
-        password:  password
+        swiftmailer:
+            transport: gmail
+            username:  user_name
+            password:  password
 
 - Replace `user_name` with you gmail `username` and `your_password` with your gmail password.
 - For other mail server configuration there is some additional configuration which can be checked from symfony documentation online.
