@@ -12,7 +12,7 @@ My first ever project in symfony.
 - Run `php app/console doctrine:schema:update`
 
 **Configuring Email**
--Open `app/config/config.yml` and navigate to *Swiftmailer Configuration*
+- Open `app/config/config.yml` and navigate to *Swiftmailer Configuration*
 
     swiftmailer:
         transport: gmail
@@ -23,7 +23,7 @@ My first ever project in symfony.
 - For other mail server configuration there is some additional configuration which can be checked from symfony documentation online.
 
 
-**Finally Run `php app/console server:run` and open `localhost:8000` in browser to start the app.**
+*Finally run `php app/console server:run` and open `localhost:8000` in browser to start the app.*
 
 
 
