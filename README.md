@@ -19,10 +19,11 @@ My first ever project in symfony.
         username:  user_name
         password:  password
 
--Replace `user_name` with you gmail `username` and `your_password` with your gmail password. For other mail server configuration there is some additional configuration which can be checked from symfony documentation online.
+- Replace `user_name` with you gmail `username` and `your_password` with your gmail password.
+- For other mail server configuration there is some additional configuration which can be checked from symfony documentation online.
 
 
-# Finally Run `php app/console server:run` and open `localhost:8000` in browser to start the app.
+**Finally Run `php app/console server:run` and open `localhost:8000` in browser to start the app.**
 
 
 
