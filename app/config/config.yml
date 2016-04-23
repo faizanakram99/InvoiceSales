@@ -60,8 +60,8 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport: gmail
-    username:  user_name
-    password:  password
+    username:  your_username
+    password:  your_password
 
 # KnpSnappyBundle Configuration
 knp_snappy:
