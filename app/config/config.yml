@@ -63,14 +63,25 @@ swiftmailer:
     username:  your_username
     password:  your_password
 
-# KnpSnappyBundle Configuration
+# KnpSnappyBundle Configuration For Windows
 knp_snappy:
     pdf:
         enabled:    true
-        binary:     /usr/local/bin/wkhtmltopdf
+        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
         options:    []
     # image:
     #     enabled:    true
     #     binary:     /usr/local/bin/wkhtmltoimage
     #     options:    []
     # temporary_folder: %kernel.cache_dir%/snappy
+
+# KnpSnappyBundle Configuration for Linux
+# knp_snappy:
+#     pdf:
+#         enabled:    true
+#         binary:     /usr/local/bin/wkhtmltopdf
+#         options:    []
+#     image:
+#         enabled:    true
+#         binary:     /usr/local/bin/wkhtmltoimage
+#         options:    []
