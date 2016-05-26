@@ -12,8 +12,9 @@ My first ever project in symfony.
 - [Download](http://github.com/faizanakram99/InvoiceSales/archive/master.zip) the application and extract it.
 - Navigate to `InvoiceSales-master` folder open `app/config/config.yml` in any text editor. Search `#KnpSnappyBundle Configuration` and add installation path of `wkhtmltopdf`  to `binary`
 - Navigate to `InvoiceSales-master` folder and open `command prompt` or `terminal`.
-- Run `composer require`
+- Run `composer install`
 - Run `php app/console doctrine:schema:update --force`
+- Run `php app/console assetic:dump`
 
 **Configuring Email**
 - Open `app/config/config.yml` and navigate to *Swiftmailer Configuration*
