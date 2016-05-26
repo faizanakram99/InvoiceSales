@@ -6,9 +6,13 @@ My first ever project in symfony.
 **For running this application. Follow these steps :**
 - Install PHP 5.5+
 - Install MySQL (The easiest way is to install WAMP, LAMP or XAMPP server)
+- Download `wkhtmltopdf` from [here](http://wkhtmltopdf.org/downloads.html)
+- Download and global install [composer](https://getcomposer.org/download)
 - Create a Database in MySQL and name it as `InvoiceSales`
 - [Download](http://github.com/faizanakram99/InvoiceSales/archive/master.zip) the application and extract it.
-- Navigate to `InvoiceSales` folder and open `command prompt` or `terminal`.
+- Navigate to `InvoiceSales-master` folder open `app/config/config.yml` in any text editor. Search `#KnpSnappyBundle Configuration` and add installation path of `wkhtmltopdf`  to `binary`
+- Navigate to `InvoiceSales-master` folder and open `command prompt` or `terminal`.
+- Run `composer require`
 - Run `php app/console doctrine:schema:update --force`
 
 **Configuring Email**
