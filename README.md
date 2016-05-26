@@ -9,7 +9,7 @@ My first ever project in symfony.
 - Create a Database in MySQL and name it as `InvoiceSales`
 - [Download](http://github.com/faizanakram99/InvoiceSales/archive/master.zip) the application and extract it.
 - Navigate to `InvoiceSales` folder and open `command prompt` or `terminal`.
-- Run `php app/console doctrine:schema:update`
+- Run `php app/console doctrine:schema:update --force`
 
 **Configuring Email**
 - Open `app/config/config.yml` and navigate to *Swiftmailer Configuration*
