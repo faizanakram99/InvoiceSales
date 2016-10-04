@@ -1,11 +1,4 @@
 {% extends 'base.html.twig' %}
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/css/jquery-ui.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/css/jquery-ui.structure.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/css/jquery-ui.theme.min.css') }}" />
-{% endblock %}
-
 {% block title %} | New Invoice {% endblock %}
 {% block body %}
 
@@ -56,15 +49,3 @@
     </div>
 {% endblock %}
 
-{% block javascripts %}
-{{ parent() }}
-    <script>
-        $(function() {
-            var invoiceDate = $("#invoice_date");
-            invoiceDate.each(function(){
-                    this.type="text";
-                });
-            invoiceDate.datepicker();
-            });
-    </script>
-{% endblock %}
