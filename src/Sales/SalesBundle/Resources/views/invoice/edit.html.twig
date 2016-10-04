@@ -71,18 +71,14 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script src="{{ asset('bundles/js/jquery-ui.min.js') }}"></script>
+    {{ parent() }}    
     <script>
         $(function() {
-            var invoiceDate = $( "#invoice_date" );
+            var invoiceDate = $("#invoice_date");
             invoiceDate.each(function(){
                 this.type="text";
             });
-            invoiceDate.datepicker({
-                dateFormat: 'yy-mm-dd',
-                minDate: 0
-            });
+            invoiceDate.datepicker();
         });
     </script>
 {% endblock %}
