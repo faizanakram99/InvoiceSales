@@ -27,7 +27,7 @@
                 </div>
                 <a class="col-xs-6 col-md-1 btn btn-info btn-danger removeProduct">X</a>
             </div>
-            {% set amount = (amount + product.amount) %}
+            {% set amount = amount + product.amount.vars.value %}
         {% endfor %}
     </div>
 

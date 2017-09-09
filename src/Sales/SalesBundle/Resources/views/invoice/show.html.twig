@@ -21,7 +21,7 @@
 
             <tr>
                 <th>Date</th>
-                <td>{% if invoice.date %}{{ invoice.date|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if invoice.date %}{{ invoice.date|date('d-m-Y') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Products</th>
@@ -34,7 +34,7 @@
                                     {{ product.description }}
                                 </span>
                                 <span class="col-xs-3">
-                                    - {{ product.amount }}$
+                                    ${{ product.amount }}
                                 </span>
                             </li>
                             {% set amount = (amount + product.amount) %}
@@ -47,7 +47,7 @@
                             </span>
 
                             <span class="h4 col-xs-3">
-                                - {{ amount }}$
+                                ${{ amount }}
                             </span>
                         </li>
                     </ul>

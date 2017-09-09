@@ -80,10 +80,10 @@ class InvoiceController extends Controller
     /**
      * Deletes a Invoice entity.
      *
-     * @Route("/{id}", name="invoice_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="invoice_delete")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, Invoice $invoice)
+    public function deleteAction(Invoice $invoice)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($invoice);
@@ -120,9 +120,9 @@ class InvoiceController extends Controller
      * @Route("/{id}/email", name="invoice_email")
      * @Method("GET")
      */
-    public function sendEmailAction(Invoice $invoice, Request $request)
+    public function sendEmailAction(Invoice $invoice)
     {
-        $html = $this->renderView('pdf.html.twig',[
+        $html = $this->renderView('SalesBundle:invoice:pdf.html.twig',[
             'invoice'  => $invoice
         ]);
 
