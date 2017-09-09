@@ -14,7 +14,6 @@ My first ever project in symfony.
 - Navigate to `InvoiceSales-master` folder and open `command prompt` or `terminal`.
 - Run `composer install`
 - Run `php app/console doctrine:schema:update --force`
-- Run `php app/console assetic:dump`
 
 **Configuring Email**
 - Open `app/config/config.yml` and navigate to *Swiftmailer Configuration*
