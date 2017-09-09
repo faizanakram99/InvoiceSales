@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="author" content="Faizan Akram!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sales Invoice {% block title %} | Show Invoice {% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <style>
+            body{
+                padding: 0;
+                margin: 0;
+                font-family: "Helvetica", sans-serif;
+                color: #404040;
+            }
+            h1{
+                text-align: center;
+            }
+            div.wrapper{
+                max-width: 960px;
+                margin: 0 auto;
+            }
+            table{
+                width: 100%;
+                margin: 0 auto;
+            }
+            table, td, th{
+                border: 1px solid #404040;
+                border-collapse:collapse;
+                padding: 10px;
+                text-align: left;
+            }
+            table tr:nth-child(2n+1){
+                background: #f5f5f5;
+            }
+            table ul{
+                list-style:none;
+                padding: 0;
+            }
+            table li{
+                display: flex;
+                justify-content: space-between;
+                padding: 2px 0;
+            }
+            table li.total{
+                border-top: 1px solid;
+                margin-top: 10px;
+                padding-top: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            {% block body %}
+                <h1>Invoice</h1>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <td>{{ invoice.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td>{{ invoice.address }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ invoice.email }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Date</th>
+                            <td>{% if invoice.date %}{{ invoice.date|date('d-m-Y') }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Products</th>
+                            <td>
+                                <ul>
+                                    {% set amount = 0 %}
+                                    {% for product in invoice.products %}
+                                        <li>
+                                            <div>
+                                                {{ product.description }}
+                                            </div>
+
+                                            <div>
+                                                ${{ product.amount }}
+                                            </div>
+                                        </li>
+                                        {% set amount = (amount + product.amount) %}
+                                    {% endfor %}
+                                    <li class="total">
+                                        <div>
+                                            Total
+                                        </div>
+                                        <div>
+                                            ${{ amount }}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% endblock %}
+        </div>
+    </body>
+</html>

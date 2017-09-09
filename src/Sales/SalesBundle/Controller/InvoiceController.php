@@ -2,18 +2,13 @@
 
 namespace Sales\SalesBundle\Controller;
 
-use Sales\SalesBundle\Entity\Products;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sales\SalesBundle\Entity\Invoice;
 use Sales\SalesBundle\Form\InvoiceType;
-use Sales\SalesBundle\Controller\ProductsController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-
 
 
 /**
@@ -23,6 +18,10 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
  */
 class InvoiceController extends Controller
 {
+    private function getFormType(){
+        return InvoiceType::class;
+    }
+
     /**
      * Lists all Invoice entities.
      *
@@ -32,45 +31,37 @@ class InvoiceController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $invoices = $em->getRepository('SalesBundle:Invoice')->findAll();
 
-        return $this->render('SalesBundle:invoice:index.html.twig', array(
+        return $this->render('SalesBundle:invoice:index.html.twig', [
             'invoices' => $invoices,
-        ));
+        ]);
     }
 
     /**
-     * Creates a new Invoice entity.
-     *
+     * Displays a form to edit an existing Invoice entity
+     * or creates a new Invoice entity
      * @Route("/new", name="invoice_new")
+     * @Route("/{id}/edit", name="invoice_edit")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function editAction(Request $request, Invoice $invoice = null)
     {
-        $invoice = new Invoice();
-
-
-        $form = $this->createForm('Sales\SalesBundle\Form\InvoiceType', $invoice);
+        if(!$invoice) $invoice = new Invoice();
+        $form = $this->createForm($this->getFormType(), $invoice);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            foreach ($invoice->getProducts() as $p){
-                $p->setInvoice($invoice);
-                $em->persist($p);
-            }
             $em->persist($invoice);
             $em->flush();
-
-            return $this->redirectToRoute('invoice_show', array('id' => $invoice->getId()));
+            return $this->redirectToRoute('invoice_show', ['id' => $invoice->getId()]);
         }
 
-        return $this->render('SalesBundle:invoice:new.html.twig', array(
+        return $this->render('SalesBundle:invoice:edit.html.twig', [
             'invoice' => $invoice,
-            'form' => $form->createView(),
-        ));
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -81,77 +72,61 @@ class InvoiceController extends Controller
      */
     public function showAction(Invoice $invoice)
     {
-        $deleteForm = $this->createDeleteForm($invoice);
-
-        return $this->render('SalesBundle:invoice:show.html.twig', array(
-            'invoice' => $invoice,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render('SalesBundle:invoice:show.html.twig', [
+            'invoice' => $invoice
+        ]);
     }
 
+    /**
+     * Deletes a Invoice entity.
+     *
+     * @Route("/{id}", name="invoice_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, Invoice $invoice)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($invoice);
+        $em->flush();
 
+        return $this->redirectToRoute('invoice_index');
+    }
 
     /**
-     * Finds and displays a Invoice entity.
+     * Downloads invoice as pdf or displays inline
      *
      * @Route("/{id}/pdf", name="invoice_show_pdf")
-     * @Method("GET")
-     */
-    public function showPdfAction(Invoice $invoice)
-    {
-        $html = $this->renderView('SalesBundle:invoice:show_pdf.html.twig',array(
-            'invoice'  => $invoice
-        ));
-        $file = 'file'.$invoice->getId().'.pdf';
-        return new Response(
-        $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
-        200,
-        array(
-            'Content-Type'          => 'application/pdf',
-            'Content-Disposition'   => "inline; filename = $file"
-        ));
-    }
-
-
-
-    /**
-     * Finds and displays a Invoice entity.
-     *
      * @Route("/{id}/download", name="invoice_download_pdf")
      * @Method("GET")
      */
-    public function pdfDownloadAction(Invoice $invoice)
+    public function pdfAction(Invoice $invoice, $_route)
     {
-        $html = $this->renderView('SalesBundle:invoice:show_pdf.html.twig',array(
+        $html = $this->renderView('SalesBundle:invoice:pdf.html.twig', [
             'invoice'  => $invoice
-        ));
+        ]);
         $file = 'file'.$invoice->getId().'.pdf';
+
+        $disposition = $_route === "invoice_show_pdf" ? "inline" : "attachment";
+
         return new Response(
-        $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
-        200,
-        array(
-            'Content-Type'          => 'application/pdf',
-            'Content-Disposition'   => "attachment; filename = $file"
-        ));
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, [
+                'Content-Type'          => 'application/pdf',
+                'Content-Disposition'   => $disposition."; filename = ".$file
+            ]
+        );
     }
 
-
-
-
     /**
-     * Finds and displays a Invoice entity.
-     *
      * @Route("/{id}/email", name="invoice_email")
      * @Method("GET")
      */
     public function sendEmailAction(Invoice $invoice, Request $request)
     {
-        $html = $this->renderView('SalesBundle:invoice:show_pdf.html.twig',array(
+        $html = $this->renderView('pdf.html.twig',[
             'invoice'  => $invoice
-        ));
+        ]);
 
         $file = 'file'.$invoice->getId().'.pdf';
-
 
         $email = $invoice->getEmail();
 
@@ -176,71 +151,5 @@ class InvoiceController extends Controller
             $this->get('mailer')->send($message);
         }
         return new Response("Email sent successfully!");
-
-    }
-
-
-
-    /**
-     * Displays a form to edit an existing Invoice entity.
-     *
-     * @Route("/{id}/edit", name="invoice_edit")
-     * @Method({"GET", "POST"})
-     */
-    public function editAction(Request $request, Invoice $invoice)
-    {
-        $deleteForm = $this->createDeleteForm($invoice);
-        $editForm = $this->createForm('Sales\SalesBundle\Form\InvoiceType', $invoice);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($invoice);
-            $em->flush();
-
-            return $this->redirectToRoute('invoice_show', array('id' => $invoice->getId()));
-        }
-
-        return $this->render('SalesBundle:invoice:edit.html.twig', array(
-            'invoice' => $invoice,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a Invoice entity.
-     *
-     * @Route("/{id}", name="invoice_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, Invoice $invoice)
-    {
-        $form = $this->createDeleteForm($invoice);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($invoice);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('invoice_index');
-    }
-
-    /**
-     * Creates a form to delete a Invoice entity.
-     *
-     * @param Invoice $invoice The Invoice entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Invoice $invoice)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('invoice_delete', array('id' => $invoice->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
     }
 }

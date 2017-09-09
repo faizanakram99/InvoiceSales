@@ -6,7 +6,6 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Invoice Number</th>
                 <th>Address</th>
                 <th>Date</th>
@@ -17,7 +16,6 @@
         {% for invoice in invoices %}
             <tr>
                 <td><a href="{{ path('invoice_show', { 'id': invoice.id }) }}">{{ invoice.id }}</a></td>
-                <td>{{ invoice.number }}</td>
                 <td>{{ invoice.address }}</td>
                 <td>{% if invoice.date %}{{ invoice.date|date('Y-m-d') }}{% endif %}</td>
                 <td>
@@ -27,7 +25,6 @@
         {% endfor %}
         </tbody>
     </table>
-
 
     <a href="{{ path('invoice_new') }}" class="btn btn-info">Create Invoice</a>
 

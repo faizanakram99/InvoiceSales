@@ -6,12 +6,8 @@
     <table class="table table-bordered table-striped table-hover">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ invoice.id }}</td>
-            </tr>
-            <tr>
                 <th>Invoice Number</th>
-                <td>{{ invoice.number }}</td>
+                <td>{{ invoice.id }}</td>
             </tr>
             <tr>
                 <th>Address</th>
@@ -27,43 +23,36 @@
                 <th>Date</th>
                 <td>{% if invoice.date %}{{ invoice.date|date('Y-m-d') }}{% endif %}</td>
             </tr>
+            <tr>
+                <th>Products</th>
+                <td>
+                    <ul class="list-unstyled row">
+                        {% set amount = 0 %}
+                        {% for product in invoice.products %}
+                            <li>
+                                <span class="col-xs-9">
+                                    {{ product.description }}
+                                </span>
+                                <span class="col-xs-3">
+                                    - {{ product.amount }}$
+                                </span>
+                            </li>
+                            {% set amount = (amount + product.amount) %}
+                        {% endfor %}
+                        <li>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <span class="h4 col-xs-9">
+                                Total
+                            </span>
 
-
-                <tr>
-                    <th>Products</th>
-
-                        <td>
-                            <ul class="list-unstyled row">
-                                {% set amount = 0 %}
-                                {% for product in invoice.products %}
-
-                                    <li>
-                                        <span class="col-xs-9">
-                                            {{ product.description }}
-                                        </span>
-                                        <span class="col-xs-3">
-                                            - {{ product.amount }}$
-                                        </span>
-                                    </li>
-                                    {% set amount = (amount + product.amount) %}
-                                {% endfor %}
-
-                                <li>
-                                    <div class="clearfix"></div>
-                                    <hr />
-                                    <span class="h4 col-xs-9">
-                                        Total
-                                    </span>
-
-                                    <span class="h4 col-xs-3">
-                                        - {{ amount }}$
-                                    </span>
-                                </li>
-
-                            </ul>
-                        </td>
-                </tr>
-
+                            <span class="h4 col-xs-3">
+                                - {{ amount }}$
+                            </span>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
         </tbody>
     </table>
     <div class="row">
@@ -88,10 +77,7 @@
         </div>
 
         <div class="col-xs-6 col-md-4 margin-down">
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete Invoice" class="btn btn-block btn-info">
-            {{ form_end(delete_form) }}
+            <a href="{{ path('invoice_delete', { 'id': invoice.id }) }}" class="btn btn-block btn-danger">Delete Invoice</a>
         </div>
     </div>
-
 {% endblock %}

@@ -9,55 +9,87 @@ use Doctrine\ORM\Mapping as ORM;
  * Invoice
  *
  * @ORM\Table(name="invoice")
- * @ORM\Entity(repositoryClass="Sales\SalesBundle\Repository\InvoiceRepository")
+ * @ORM\Entity
  */
 class Invoice
 {
-
-
-
-
-
     public function __construct()
     {
         $this->products = new ArrayCollection();
     }
 
-
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
+     * Get id
      *
-     * @ORM\Column(name="Number", type="string", length=255, unique=true)
+     * @return integer
      */
-    private $number;
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="Address", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $address;
 
     /**
-     * @var \DateTime
+     * Get address
      *
-     * @ORM\Column(name="Date", type="date")
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     * @return Invoice
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @ORM\Column(type="date")
      */
     private $date;
 
     /**
-     * @var string
+     * Get date
      *
-     * @ORM\Column(name="Email", type="string", length=255, nullable=true)
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Invoice
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
 
@@ -78,91 +110,9 @@ class Invoice
     }
 
     /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Products", mappedBy="invoice")
-     *
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="invoice", cascade={"persist","remove"}, orphanRemoval=true)
      */
     private $products;
-
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set number
-     *
-     * @param string $number
-     * @return Invoice
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
-     * Get number
-     *
-     * @return string
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    /**
-     * Set address
-     *
-     * @param string $address
-     * @return Invoice
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     * @return Invoice
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
 
     /**
      * @return ArrayCollection
@@ -173,30 +123,24 @@ class Invoice
     }
 
     /**
-     * Add products
+     * Add product
      *
-     * @param \Sales\SalesBundle\Entity\Products $products
+     * @param Product $product
      * @return Invoice
      */
-    public function addProduct(\Sales\SalesBundle\Entity\Products $products)
+    public function addProduct(Product $product)
     {
-        $this->products[] = $products;
-
-        return $this;
+        $product->setInvoice($this);
+        $this->products->add($product);
     }
 
     /**
-     * Remove products
+     * Remove product
      *
-     * @param \Sales\SalesBundle\Entity\Products $products
+     * @param Product $product
      */
-    public function removeProduct(\Sales\SalesBundle\Entity\Products $products)
+    public function removeProduct(Product $product)
     {
-        $this->products->removeElement($products);
-    }
-
-    public function __toString()
-    {
-        return $this->getNumber();
+        $this->products->removeElement($product);
     }
 }

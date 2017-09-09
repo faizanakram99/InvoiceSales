@@ -25,27 +25,6 @@ h1{
     padding-right: 0;
 }
 
-.btnClose{
-    display: inline-block;
-    background: #ccc;
-    color:#000;
-    font-weight:bolder;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    height: 34px;
-    vertical-align: top;
-    padding-top: 6px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.btnClose:hover{
-    background: deepskyblue;
-    text-decoration: none;
-    color: #fff;
-}
-
 .edit-form{
     padding-right: 15px;
 }
