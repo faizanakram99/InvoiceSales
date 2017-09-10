@@ -1,7 +1,5 @@
 # InvoiceSales
-Invoice Sales System developed using symfony framework - CRUD operations, download invoice as pdf and email invoice.
-
-My first ever project in symfony.
+Invoice Sales System developed using symfony framework - CRUD operations, download invoice as pdf (or view inline) and email invoice.
 
 **For running this application. Follow these steps :**
 - Install PHP 5.5+
@@ -28,3 +26,5 @@ My first ever project in symfony.
 
 
 *Finally run `php app/console server:run` from the root_dir of project i.e. InvoiceSales and open `localhost:8000` in browser to start the app.*
+
+**NOTE** : Tested in Chrome 60, this application won't run in IE due to its limited support of ES6, if you want to run this application in IE, convert ES6 code (`/src/Sales/SalesBundle/Resources/public/js/scripts.js`) to ES5 [here](https://babeljs.io/repl/) and paste it into `scripts.js` file. Run `php app/console assets:install` to reflect changes.
