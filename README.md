@@ -1,8 +1,8 @@
 # InvoiceSales
-Invoice Sales System developed using symfony framework - CRUD operations, download invoice as pdf (or view inline) and email invoice.
+A simple Symfony app for creating, listing, editing, viewing (as pdf) and email invoices.
 
 **For running this application. Follow these steps :**
-- Install PHP 5.5+
+- Install PHP 5.6+
 - Install MySQL (The easiest way is to install WAMP, LAMP or XAMPP server)
 - Download `wkhtmltopdf` from [here](http://wkhtmltopdf.org/downloads.html)
 - Download and global install [composer](https://getcomposer.org/download)
